@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>demo02: 非表示のカルーセルを制御する</title>
+  
+  <!-- Link Swiper's CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css" />
+  <link rel="stylesheet" href="../common.css">
+  <link rel="stylesheet" href="./demo02.css">
+
+</head>
+<body>
+  <div class="pageInner">
+    <div class="pageContents">
+      <h1>非表示のカルーセルを制御する</h1>
+      <div class="carouselWrapper">
+        <!-- Swiper -->
+        <div class="swiper">
+          <div class="swiper-wrapper">
+            <div class="swiper-slide card">
+              <div class="swiper-slide-wrapper card-info">
+                <div class="card-info-text">
+                  <p>Slide 1</p>
+                </div>              
+                <a href="" class="button button__small">詳細へ</a>
+              </div>
+            </div>
+            <div class="swiper-slide card">
+              <div class="swiper-slide-wrapper card-info">
+                <div class="card-info-text">
+                  <p>Slide 2</p>
+                </div>
+                <a href="" class="button button__small">詳細へ</a>
+              </div>
+            </div>
+            <div class="swiper-slide card">
+              <div class="swiper-slide-wrapper card-info">
+                <div class="card-info-text">
+                  <p>Slide 3</p>
+                </div>
+                <a href="" class="button button__small">詳細へ</a>
+              </div>
+            </div>
+            <div class="swiper-slide card">
+              <div class="swiper-slide-wrapper card-info">
+                <div class="card-info-text">
+                  <p>Slide 4</p>
+                </div>
+                <a href="" class="button button__small">詳細へ</a>
+              </div>
+            </div>
+            <div class="swiper-slide card">
+              <div class="swiper-slide-wrapper card-info">
+                <div class="card-info-text">
+                  <p>Slide 5</p>
+                </div>
+                <a href="" class="button button__small">詳細へ</a>
+              </div>
+            </div>
+            <div class="swiper-slide card">
+              <div class="swiper-slide-wrapper card-info">
+                <div class="card-info-text">
+                  <p>Slide 6</p>
+                </div>
+                <a href="" class="button button__small">詳細へ</a>
+              </div>
+            </div>
+          </div>
+
+          <button class="swiper-button-next"></button>
+          <button class="swiper-button-prev"></button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Swiper JS -->
+  <script src="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js"></script>
+
+  <!-- Initialize Swiper -->
+  <script>
+    // スライドをグループ化して、一度のスライド枚数
+    const SLIDE_GROUP = 2;
+
+    /**
+     * 
+     */
+    const preventTabKeydown = (event) => {
+      if (event.key === "Tab") {
+        event.preventDefault();
+      }
+    };
+
+    /**
+     * 
+     */
+    const changeTabindex = (swiper) => {
+      const {slides, activeIndex} = swiper;
+
+      slides.forEach((slide) => {
+        const slideWrapper = slide.querySelector(".swiper-slide-wrapper");
+        slideWrapper.setAttribute("inert", "");
+      });
+
+      for (let i = 0; i < SLIDE_GROUP; i++) {
+        const slideWrapper = slides[activeIndex + i].querySelector(".swiper-slide-wrapper");
+        slideWrapper.removeAttribute("inert");
+      }
+    };
+
+    const swiper = new Swiper(".swiper", {
+      slidesPerView: 2.4,
+      spaceBetween: 24,
+      slidesPerGroup: SLIDE_GROUP,
+      navigation: { 
+        nextEl: ".swiper-button-next",
+        prevEl: ".swiper-button-prev",
+      },
+      a11y: {
+        containerMessage:'サンプルのカルーセル',
+        prevSlideMessage: '前のスライドへ',
+        nextSlideMessage: '次のスライドへ',
+        slideLabelMessage:'{{index}}枚目のスライド',
+        paginationBulletMessage: '{{index}}枚目のスライドを表示',
+        lastSlideMessage: '{{index}}枚目のスライドを表示',
+        firstSlideMessage: '{{index}}枚目のスライドを表示'
+      },
+      on: {
+        init: (swiper) => {
+          changeTabindex(swiper);
+        },
+        slideChangeTransitionStart: (swiper) => {
+          // スライド中はキーボード操作を禁止
+          document.addEventListener("keydown", preventTabKeydown);
+        },
+        slideChangeTransitionEnd: (swiper) => {
+          // スライド完了後、キーボード操作を許可
+          document.removeEventListener("keydown", preventTabKeydown);
+          changeTabindex(swiper);
+        },
+      },
+    });
+  </script>
+</body>
+</html>

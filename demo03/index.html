@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>demo03: モーダル表示するハンバーガーメニュー</title>
+  <link rel="stylesheet" href="../common.css">
+  <link rel="stylesheet" href="./demo03.css">
+  
+  <style>
+  </style>
+</head>
+<body>
+  <header id="js-header" class="header">
+    <div class="header-inner">
+      <div class="header-logo">
+        <p>ヘッダー</p>
+      </div>  
+      <button id="js-mobileMenu-button" class="mobileMenuButton" aria-expanded="false" type="button" aria-label="メニューを開く"></button>
+      <div id="js-mobileMenu-menu" class="mobileMenu">
+        <div class="mobileMenu-inner">
+          <nav aria-label="メインメニュー">
+            <ul class="mobileMenu-navigation">
+              <li><a href="">Top</a></li>
+              <li><a href="">About</a></li>
+              <li><a href="">Works</a></li>
+            </ul>
+          </nav>
+          <p class="mobileMenu-message">ICS MEDIA<br>inert属性のデモ</p>
+        </div>
+      </div>
+    </div>
+  </header>
+
+
+  <div class="layout js-mobileMenu-backSide">
+    <div class="layout-main">
+      <main>
+        <p>ページコンテンツ</p>
+        <a href="../">目次へ戻る</a>
+      </main>
+    </div>
+  
+    <div class="layout-footer">
+      <footer class="footer">
+        フッター
+        <nav aria-label="サブメニュー">
+          <ul class="footerMenu">
+            <li>
+              <a href="">Top</a>
+            </li>
+            <li>
+              <a href="">About</a>
+            </li>
+            <li>
+              <a href="">Works</a>
+            </li>
+          </ul>
+        </nav>
+      </footer>
+    </div>
+  </div>
+
+  <script>
+    const header = document.querySelector("#js-header");
+    const mobileMenu = document.querySelector("#js-mobileMenu-menu");
+    const mobileMenubutton = document.querySelector("#js-mobileMenu-button");
+    const mobileMenuBackSide = document.querySelectorAll(".js-mobileMenu-backSide")
+    let isOpened = false;
+    
+    /**
+     *
+     */
+     mobileMenubutton.addEventListener("click", () => {
+      isOpened = !isOpened;
+      if (isOpened) {
+        openMobileMenu();
+      } else {
+        closeMobileMenu();
+      }
+    })
+
+    /**
+     * 
+     */
+    const openMobileMenu = () => {
+      mobileMenuBackSide.forEach((backSideElement) => {
+        backSideElement.setAttribute("inert", "");
+      })
+      mobileMenubutton.classList.add("is-open");
+      header.classList.add("is-openMobileMenu");
+      mobileMenubutton.setAttribute("aria-expanded", "true");
+      mobileMenubutton.setAttribute("aria-label", "メニューをとじる");
+      mobileMenu.classList.add("is-open");
+    }
+
+    /**
+     * 
+     */
+    const closeMobileMenu = () => {
+      mobileMenuBackSide.forEach((backSideElement) => {
+        backSideElement.removeAttribute("inert");
+      })
+      mobileMenubutton.classList.remove("is-open");
+      header.classList.remove("is-openMobileMenu");
+      mobileMenubutton.setAttribute("aria-expanded", "false");
+      mobileMenubutton.setAttribute("aria-label", "メニューをひらく");
+      mobileMenu.classList.remove("is-open");
+    }
+  </script>
+</body>
+</html>
