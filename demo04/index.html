@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>各プロパティの動作確認｜inert属性のデモ</title>
+  
+  <link rel="stylesheet" href="../common.css">
+  <link rel="stylesheet" href="./demo04.css">
+</head>
+<body>
+  <div class="pageInner">
+    <div class="pageContents">
+      <h1>各プロパティの動作確認</h1>
+      <div class="inspectDisplay">
+        <a href="#" id="js-link" class="button">検証用リンク（href="#"）</a>
+      </div>
+      <div id="js-form">
+        <form class="form form--demo04">
+          <fieldset class="form-field">
+            <legend class="form-field-legend">「検証用リンク」の設定</legend>
+            <div class="form-field-gridBox form-field-gridBox__gapSmall">
+              <label class="form-checkbox">
+                <input type="checkbox" name="enablePointerEvent" value="a">
+                <span>マウス・タッチ操作を無効化（pointer-events: none;）</span>
+              </label>
+              <label class="form-checkbox">
+                <input type="checkbox" name="enableUserSelect">
+                <span>テキスト・画像などの選択を無効化（user-select: none;）</span>
+              </label>
+              <label class="form-checkbox">
+                <input type="checkbox" name="enableTabIndex">
+                <span>キーボードフォーカスを無効化（tabIndex="-1"）</span>
+              </label>
+              <label class="form-checkbox">
+                <input type="checkbox" name="enableAriaHidden">
+                <span>音声読み上げを無効化（aria-hidden="true"）</span>
+              </label>
+              <label class="form-checkbox">
+                <input type="checkbox" name="enableInert">
+                <span class="color-accent">inert属性を指定（element.inert = true）</span>
+              </label>
+            </div>
+          </fieldset>
+        </form>
+      </div>
+      <a class="bottomLink" href="../">目次へ戻る</a>
+    </div>
+  </div>
+
+  <script>
+    const linkElement = document.querySelector("#js-link");
+    const inputList = document.querySelectorAll(".form-checkbox input");
+
+    /**
+     * クリック時のイベントハンドラ
+     * @param element MouseEvent
+     */
+    const handleClick = (event) => {
+      const target = event.currentTarget;
+      const checked = target.checked;
+
+      // チェックされているか判定して値を切り替える
+      switch (target.name) {
+        case "enablePointerEvent":
+          linkElement.style.pointerEvents = checked ? "none" : "";
+          break;
+        case "enableUserSelect":
+          linkElement.style.userSelect = checked ? "none" : "";
+          break;
+        case "enableTabIndex":
+          linkElement.tabIndex = checked ? "-1" : "0";
+          break;
+        case "enableAriaHidden":
+          linkElement.ariaHidden = checked ? true : undefined;
+          break;
+        case "enableInert":
+          linkElement.inert = checked ? true : false;
+          break;
+        default:
+          break;
+      }
+    }
+
+    inputList.forEach((element) => {
+      element.addEventListener("click", handleClick);
+    })
+  </script>
+</body>
+</html>
