@@ -3,81 +3,70 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>demo01: 入力項目をまとめて制御する</title>
+  <title>フォーム送信時の制御｜inert属性のデモ</title>
   
   <link rel="stylesheet" href="../common.css">
   <link rel="stylesheet" href="./demo01.css">
-  <style>
-    [inert] {
-      opacity: 0.3;
-    }
-  </style>
 </head>
 <body>
   <div class="pageInner">
     <div class="pageContents">
-      <h1>入力項目をまとめて制御する</h1>
-      <form class="form">
-        <fieldset class="form-field">
-          <legend class="form-field-legend">プライバシーポリシーの同意</legend>
-          <div class="form-field-gridBox">
-            <div class="form-text">
-              <a href="https://ics.media/entry/privacy/">プライバシーポリシー</a>
-              <p>
-                プライバシーポリシーに同意の上、入力を行ってください。
-              </p>
-            </div>
-            <label for="agreedPrivacyPolicy" class="form-checkbox">
-              <input id="agreedPrivacyPolicy" type="checkbox" name="agreedPrivacyPolicy" required>
-              プライバシーポリシーに同意する
-            </label>
-          </div>
-        </fieldset>
-        <div class="form-main" inert>
+      <h1>フォーム送信時の制御</h1>
+      <div id="js-formWrapper">
+        <form class="form" onsubmit="handleSubmit(event)">
           <fieldset class="form-field">
-            <legend class="form-field-legend">個人情報</legend>
+            <legend id="js-test" class="form-field-legend">アカウント情報</legend>
             <div class="form-field-gridBox">
-              <label for="" class="form-label">
+              <label class="form-label">
                 <span class="form-label-text">名前<span class="form-badge">（必須）</span></span>
                 <input class="form-inputText" type="text" required>
-              </label>
-              <label for="" class="form-label">
-                <span class="form-label-text">メールアドレス<span class="form-badge">（必須）</span></span>
-                <input class="form-inputText" type="email" required>
               </label>
             </div>
           </fieldset>
           <fieldset class="form-field">
             <legend class="form-field-legend">メールマガジンで最新情報の配信を希望しますか？</legend>
             <div class="form-field-gridBox form-field-gridBox__gapSmall">
-              <label for="mailMagazine-agree" class="form-radio">
-                <input type="radio" id="mailMagazine-agree" name="agreeMailMagazine" value="agree">
+              <label class="form-radio">
+                <input type="radio" name="agreeMailMagazine" value="agree">
                 <span>希望する</span>
               </label>
-              <label for="mailMagazine-disagree" class="form-radio">
-                <input type="radio" id="mailMagazine-disagree" name="agreeMailMagazine" value="disagree" checked>
+              <label class="form-radio">
+                <input type="radio" name="agreeMailMagazine" value="disagree" checked>
                 <span>希望しない</span>
               </label>
             </div>
           </fieldset>
     
           <div class="form-buttonWrapper">
-            <button class="button" type="submit">入力内容を送信する<br>（どこにも送信されません）</button>
+            <button id="js-form-submit" type="submit" onClick="" class="button">入力内容を保存する<br>（どこにも送信されません）</button>
           </div>
-        </div>
-      </form>
+        </form>
+      </div>
+      <a class="bottomLink" href="../">目次へ戻る</a>
   
     </div>
   </div>
 
   <script>
-    const agreedPrivacyPolicy = document.querySelector("input[name='agreedPrivacyPolicy']"); // プライバシーポリシーの同意ボタン
-    const inertTargetElement = document.querySelector(".form-main"); // inertを指定する要素
-    
-    agreedPrivacyPolicy.addEventListener("change", (event) => {
-      // 同意ボタンのチェック状態で、inert属性の設定を切り替える 
-      event.currentTarget.checked ? inertTargetElement.removeAttribute("inert") : inertTargetElement.setAttribute("inert", "");
-    })
+    const wrapperElement = document.querySelector("#js-formWrapper"); // inertを指定する要素
+
+    /**
+     * 送信された時のイベントハンドラです。
+     * @param event SubmitEvent
+     */
+    const handleSubmit = (event) => {
+      console.log("入力内容を送信します（どこにも送信されません）");
+
+      event.preventDefault();
+      wrapperElement.inert = true;
+
+      // 1.5秒ほど待機する
+      setTimeout(() => {
+        console.log("送信が完了しました（どこにも送信されません）")
+        
+        wrapperElement.inert = false;
+      }, 1500)
+    };
   </script>
 </body>
 </html>
