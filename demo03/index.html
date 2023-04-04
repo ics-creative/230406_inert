@@ -3,41 +3,44 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>demo03: モーダル表示するハンバーガーメニュー</title>
+  <title>モーダル表示のメニュー｜inert属性のデモ</title>
   <link rel="stylesheet" href="../common.css">
   <link rel="stylesheet" href="./demo03.css">
-  
-  <style>
-  </style>
 </head>
 <body>
   <header id="js-header" class="header">
     <div class="header-inner">
       <div class="header-logo">
         <p>ヘッダー</p>
-      </div>  
-      <button id="js-mobileMenu-button" class="mobileMenuButton" aria-expanded="false" type="button" aria-label="メニューを開く"></button>
-      <div id="js-mobileMenu-menu" class="mobileMenu">
-        <div class="mobileMenu-inner">
+      </div>
+      <div class="header-mainMenuButton">
+        <button id="js-mainMenu-button" class="mainMenuButton" aria-expanded="false" type="button" aria-label="メインメニューを開く">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+      <div id="js-mainMenu-menu" class="mainMenu">
+        <div class="mainMenu-inner">
           <nav aria-label="メインメニュー">
-            <ul class="mobileMenu-navigation">
-              <li><a href="">Top</a></li>
-              <li><a href="">About</a></li>
-              <li><a href="">Works</a></li>
+            <ul class="mainMenu-navigation">
+              <li><a href="#">Top</a></li>
+              <li><a href="#">About</a></li>
+              <li><a href="#">Works</a></li>
             </ul>
           </nav>
-          <p class="mobileMenu-message">ICS MEDIA<br>inert属性のデモ</p>
+          <p class="mainMenu-message">ICS MEDIA<br>inert属性のデモ</p>
         </div>
       </div>
     </div>
   </header>
 
 
-  <div class="layout js-mobileMenu-backSide">
+  <div class="layout js-mainMenu-background">
     <div class="layout-main">
       <main>
         <p>ページコンテンツ</p>
-        <a href="../">目次へ戻る</a>
+        <a class="bottomLink" href="../">目次へ戻る</a>
       </main>
     </div>
   
@@ -63,49 +66,47 @@
 
   <script>
     const header = document.querySelector("#js-header");
-    const mobileMenu = document.querySelector("#js-mobileMenu-menu");
-    const mobileMenubutton = document.querySelector("#js-mobileMenu-button");
-    const mobileMenuBackSide = document.querySelectorAll(".js-mobileMenu-backSide")
+    const mainMenu = document.querySelector("#js-mainMenu-menu");
+    const mainMenubutton = document.querySelector("#js-mainMenu-button");
+    const backgroundElements = document.querySelectorAll(".js-mainMenu-background")
+    // メインメニューが開かれているか？
     let isOpened = false;
     
-    /**
-     *
-     */
-     mobileMenubutton.addEventListener("click", () => {
+    mainMenubutton.addEventListener("click", () => {
       isOpened = !isOpened;
       if (isOpened) {
-        openMobileMenu();
+        openMainMenu();
       } else {
-        closeMobileMenu();
+        closeMainMenu();
       }
     })
 
     /**
-     * 
+     * メインメニューを開きます。
      */
-    const openMobileMenu = () => {
-      mobileMenuBackSide.forEach((backSideElement) => {
-        backSideElement.setAttribute("inert", "");
+    const openMainMenu = () => {
+      backgroundElements.forEach((backgroundElement) => {
+        backgroundElement.inert = true;
       })
-      mobileMenubutton.classList.add("is-open");
-      header.classList.add("is-openMobileMenu");
-      mobileMenubutton.setAttribute("aria-expanded", "true");
-      mobileMenubutton.setAttribute("aria-label", "メニューをとじる");
-      mobileMenu.classList.add("is-open");
+      mainMenubutton.classList.add("is-opened");
+      header.classList.add("is-openedMainMenu");
+      mainMenubutton.ariaExpanded = true;
+      mainMenubutton.ariaLabel = "メインメニューをとじる";
+      mainMenu.classList.add("is-opened");
     }
 
     /**
-     * 
+     * メインメニューを閉じます。
      */
-    const closeMobileMenu = () => {
-      mobileMenuBackSide.forEach((backSideElement) => {
-        backSideElement.removeAttribute("inert");
+    const closeMainMenu = () => {
+      backgroundElements.forEach((backSideElement) => {
+        backSideElement.inert = false;
       })
-      mobileMenubutton.classList.remove("is-open");
-      header.classList.remove("is-openMobileMenu");
-      mobileMenubutton.setAttribute("aria-expanded", "false");
-      mobileMenubutton.setAttribute("aria-label", "メニューをひらく");
-      mobileMenu.classList.remove("is-open");
+      mainMenubutton.classList.remove("is-opened");
+      header.classList.remove("is-openedMainMenu");
+      mainMenubutton.ariaExpanded = false;
+      mainMenubutton.ariaLabel = "メインメニューをひらく";
+      mainMenu.classList.remove("is-opened");
     }
   </script>
 </body>
