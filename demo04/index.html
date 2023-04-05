@@ -13,7 +13,7 @@
     <div class="pageContents">
       <h1>各プロパティの動作確認</h1>
       <div class="inspectDisplay">
-        <a href="#" id="js-link" class="button">検証用リンク（href="#"）</a>
+        <a href="#" id="js-link" class="button">検証用リンク<br>（アラートが表示されます）</a>
       </div>
       <div id="js-form">
         <form class="form form--demo04">
@@ -90,6 +90,11 @@
 
     inputList.forEach((element) => {
       element.addEventListener("click", handleClick);
+    })
+
+    linkElement.addEventListener("click", (e) => {
+      e.preventDefault();
+      alert("リンクがクリックされました")
     })
   </script>
 </body>
