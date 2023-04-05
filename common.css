@@ -148,6 +148,7 @@ body {
   padding: 16px; 
   cursor: pointer;
   user-select: none;
+  -webkit-user-select: none;
 }
 
 .form-label-text {

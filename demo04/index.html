@@ -66,13 +66,19 @@
           linkElement.style.pointerEvents = checked ? "none" : "";
           break;
         case "enableUserSelect":
-          linkElement.style.userSelect = checked ? "none" : "";
+          const value = checked ? "none" : "";
+          linkElement.style.userSelect = value;
+          linkElement.style.setProperty('-webkit-user-select', value);
           break;
         case "enableTabIndex":
           linkElement.tabIndex = checked ? "-1" : "0";
           break;
         case "enableAriaHidden":
-          linkElement.ariaHidden = checked ? true : undefined;
+          if(checked) {
+            linkElement.setAttribute("aria-hidden", "true");
+          } else {
+            linkElement.removeAttribute("aria-hidden");
+          }
           break;
         case "enableInert":
           linkElement.inert = checked ? true : false;
