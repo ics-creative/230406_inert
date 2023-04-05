@@ -55,15 +55,12 @@
      * @param event SubmitEvent
      */
     const handleSubmit = (event) => {
-      console.log("入力内容を送信します（どこにも送信されません）");
-
       event.preventDefault();
       wrapperElement.inert = true;
 
       // 1.5秒ほど待機する
       setTimeout(() => {
-        console.log("送信が完了しました（どこにも送信されません）")
-        
+        alert("送信が完了しました（どこにも送信されません）")
         wrapperElement.inert = false;
       }, 1500)
     };
